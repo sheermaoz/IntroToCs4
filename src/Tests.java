@@ -15,6 +15,37 @@ public class Tests {
         test("Bit.carry(zero, zero, zero).equals(zero)", Bit.fullAdderCarry(zero, zero, zero).equals(zero),90);
         test("Bit.carry(one , one , zero).equals(one )", Bit.fullAdderCarry(one , one , zero).equals(one ),100);
         test("Bit.carry(zero, zero, one ).equals(zero)", Bit.fullAdderCarry(zero, zero, one ).equals(zero),160);
+
+        /*BitList b1 = new BitList(); // <>
+        b1.addFirst(zero); // <0>
+        b1.addFirst(zero); // <00>
+        b1.addFirst(one); // <001>
+        System.out.println(b1.toString()); // prints <001>*/
+
+        /*BitList b1 = new BitList(); // <>
+        b1.addFirst(zero); // <0>
+        b1.addFirst(zero); // <00>
+        b1.addFirst(one); // <001>
+        BitList b2 = new BitList(b1); // <001>
+        //System.out.println(b2.toString()); // <001>
+        b2.addFirst(one); // <0011>
+        b2.addFirst(one); // <00111>
+        b2.addFirst(one); // <001111>
+        System.out.println(b1.isReduced()); // <001>
+        System.out.println(b2.isReduced()); // <001111>*/
+
+        BitList b3 = new BitList(); // <>
+        //System.out.println(b1.isNumber()); // prints false
+        b3.addFirst(one); // <1>
+        b3.addFirst(zero); // <10>
+        b3.addFirst(one); // <100>
+        b3.addFirst(zero);
+        //System.out.println(b1.isNumber()); // prints false
+        b3.addLast(zero); // <1100>
+        b3.padding(6);
+        System.out.println(b3.toString()); // prints true
+
+
     	
     	BinaryNumber n0 = new BinaryNumber('0');
         BinaryNumber n1 = new BinaryNumber('1');

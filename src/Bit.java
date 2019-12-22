@@ -56,11 +56,13 @@ public class Bit {
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 1.1 ================================================
     public static Bit fullAdderSum(Bit bit1, Bit bit2, Bit bit3) {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        int count = bit1.toInt() + bit2.toInt() + bit3.toInt();
+        return new Bit(count % 2 == 1);
     }
 
     public static Bit fullAdderCarry(Bit bit1, Bit bit2, Bit bit3) {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        int count = bit1.toInt() + bit2.toInt() + bit3.toInt();
+        return new Bit(count >= 2);
     }
 
 }

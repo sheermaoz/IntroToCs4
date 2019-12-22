@@ -25,39 +25,123 @@ public class BitList extends LinkedList<Bit> {
 //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 2.1 ================================================
 
     public void addLast(Bit element) {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        if (element == null)
+        {
+            throw new IllegalArgumentException("Null cannot be added to the list.");
+        }
+
+        if (element.toInt() == 1)
+        {
+            numberOfOnes++;
+        }
+        super.addLast(element);
     }
 
     public void addFirst(Bit element) {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        if (element == null)
+        {
+            throw new IllegalArgumentException("Null cannot be added to the list.");
+        }
+
+        if (element.toInt() == 1)
+        {
+            numberOfOnes++;
+        }
+        
+        super.addFirst(element);
     }
 
     public Bit removeLast() {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        Bit bit = super.removeLast();
+        if (bit.toInt() == 1)
+        {
+            numberOfOnes--;
+        }
+        return bit;
     }
 
     public Bit removeFirst() {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        Bit bit = super.removeFirst();
+        if (bit.toInt() == 1)
+        {
+            numberOfOnes--;
+        }
+        return bit;
     }
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 2.2 ================================================
     public String toString() {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        java.util.Iterator<Bit> itr = super.iterator();
+        String output = ">";
+        while (itr.hasNext())
+        {
+            output = itr.next().toString() + output;
+        }
+        output = "<" + output;
+        return output;
     }
     
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 2.3 ================================================
     public BitList(BitList other) {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        Bit current;
+        if (other == null)
+        {
+            throw new IllegalArgumentException("Can't construct from a null BitList.");
+        }
+        java.util.Iterator<Bit> itr = other.iterator();
+        while (itr.hasNext())
+        {
+            current = itr.next();
+            if (current == null)
+            {
+                throw new IllegalArgumentException("Null cannot be an element of BitList.");
+            }
+            this.addLast(current);
+        }
     }
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 2.4 ================================================
     public boolean isNumber() {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        boolean output = true;
+        if (this.size() == 0)
+        {
+            output = false;
+        }
+        else
+        {
+            String binary = this.toString();
+            if (binary.charAt(1) == '1' && numberOfOnes == 1)
+            {
+                output = false;
+            }
+        }
+        return output;
+
     }
     
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 2.5 ================================================
     public boolean isReduced() {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        boolean output;
+        String binary = this.toString();
+
+        if (!this.isNumber())
+        {
+            output = false;
+        }
+        else if (binary.substring(1, 3).equals("10") | binary.substring(1, 3).equals("01"))
+        {
+            output = true;
+        }
+        else if (binary.substring(1, 3).equals("11") & numberOfOnes == 2)
+        {
+            output = true;
+        }
+        else 
+        {
+            output = false;
+        }
+
+        return output;
     }
 
     public void reduce() {
@@ -66,21 +150,42 @@ public class BitList extends LinkedList<Bit> {
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 2.6 ================================================
     public BitList complement() {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        java.util.Iterator<Bit> itr = super.iterator();
+        BitList output = new BitList();
+        while (itr.hasNext())
+        {
+            Bit newBit = itr.next();
+            output.addLast(new Bit (newBit.toInt()*(-1) + 1));
+        }
+
+        return output;
     }
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 2.7 ================================================
     public Bit shiftRight() {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        Bit output = null;
+        if (this.size() > 0)
+        {
+            output = this.removeFirst();
+        }
+
+        return output;
     }
 
     public void shiftLeft() {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        this.addFirst(Bit.ZERO);
     }
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 2.8 ================================================
     public void padding(int newLength) {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        if (newLength > size())
+        {
+            Bit last = removeLast();
+            for (int i = newLength - size(); i > 0; i--)
+            {
+                this.addLast(last);
+            }
+        }
     }
 
     
