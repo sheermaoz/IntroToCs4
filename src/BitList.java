@@ -109,8 +109,8 @@ public class BitList extends LinkedList<Bit> {
         }
         else
         {
-            String binary = this.toString();
-            if (binary.charAt(1) == '1' && numberOfOnes == 1)
+            String binary = toString();
+            if (binary.charAt(1) == '1' & numberOfOnes == 1)
             {
                 output = false;
             }
@@ -127,6 +127,10 @@ public class BitList extends LinkedList<Bit> {
         if (!this.isNumber())
         {
             output = false;
+        }
+        else if (binary.length() == 3 & binary.charAt(1) == '0')
+        {
+            output = true;
         }
         else if (binary.substring(1, 3).equals("10") | binary.substring(1, 3).equals("01"))
         {
@@ -145,7 +149,24 @@ public class BitList extends LinkedList<Bit> {
     }
 
     public void reduce() {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        String binary = toString();
+        int toRemove = 0;
+        
+        if (binary.substring(1 ,3).equals("11"))
+        {
+            toRemove = binary.indexOf("0") - 2;
+        }
+        else if (binary.substring(1, 3).equals("00"))
+        {
+            toRemove = binary.indexOf("1") - 2;
+        }
+        for (int i = toRemove; i > 0; i--)
+        {
+            removeLast();
+        }
+
+
+        
     }
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 2.6 ================================================

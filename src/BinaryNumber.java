@@ -41,16 +41,45 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 3.1 ================================================
     public BinaryNumber(char c) {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        if (c > '9' | c < '0')
+        {
+            throw new IllegalArgumentException("The character is not a decimal digit.");
+        }
+        bits = new BitList();
+        int n = c - '0';
+        int power = 8;
+        bits.addFirst(Bit.ZERO);   
+        if (n != 0 )
+        {
+            while (power > 0)
+            {
+                if (n % power < n)
+                {
+                    bits.addFirst(Bit.ONE);
+                    n = n - power;
+                }
+                else
+                {
+                    bits.addFirst(Bit.ZERO);
+                }
+                power = power / 2;
+            }
+            
+        }
+        bits.reduce();
     }
 
   //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 3.2 ================================================
     public String toString() {
         // Do not remove or change the next two lines
-        if (!isLegal()) // Do not change this line
+        if (!isLegal()) {// Do not change this line
+            System.out.println(bits.toString().substring(1, bits.size() + 1)); 
+
             throw new RuntimeException("I am illegal.");// Do not change this line
+        }
         //
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        return bits.toString().substring(1, bits.size() + 1);
+
     }
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 3.3 ================================================

@@ -34,7 +34,7 @@ public class Tests {
         System.out.println(b1.isReduced()); // <001>
         System.out.println(b2.isReduced()); // <001111>*/
 
-        BitList b3 = new BitList(); // <>
+        /*BitList b3 = new BitList(); // <>
         //System.out.println(b1.isNumber()); // prints false
         b3.addFirst(one); // <1>
         b3.addFirst(zero); // <10>
@@ -43,7 +43,7 @@ public class Tests {
         //System.out.println(b1.isNumber()); // prints false
         b3.addLast(zero); // <1100>
         b3.padding(6);
-        System.out.println(b3.toString()); // prints true
+        System.out.println(b3.toString()); // prints true*/
 
 
     	
