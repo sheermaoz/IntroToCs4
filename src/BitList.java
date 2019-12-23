@@ -149,18 +149,7 @@ public class BitList extends LinkedList<Bit> {
     }
 
     public void reduce() {
-        String binary = toString();
-        int toRemove = 0;
-        
-        if (binary.substring(1 ,3).equals("11"))
-        {
-            toRemove = binary.indexOf("0") - 2;
-        }
-        else if (binary.substring(1, 3).equals("00"))
-        {
-            toRemove = binary.indexOf("1") - 2;
-        }
-        for (int i = toRemove; i > 0; i--)
+        while (!isReduced())
         {
             removeLast();
         }
@@ -176,7 +165,7 @@ public class BitList extends LinkedList<Bit> {
         while (itr.hasNext())
         {
             Bit newBit = itr.next();
-            output.addLast(new Bit (newBit.toInt()*(-1) + 1));
+            output.addLast(newBit.negate());
         }
 
         return output;

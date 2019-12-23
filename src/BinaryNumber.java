@@ -29,6 +29,11 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
             throw new IllegalArgumentException("This Constructor may only get either zero or one.");
     }
 
+    public BinaryNumber(BitList bits)
+    {
+        this.bits = bits;
+    }
+
     //Do not chainge this method
     public int length() {
         return bits.size();
@@ -72,44 +77,115 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
   //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 3.2 ================================================
     public String toString() {
         // Do not remove or change the next two lines
-        if (!isLegal()) {// Do not change this line
-            System.out.println(bits.toString().substring(1, bits.size() + 1)); 
-
-            throw new RuntimeException("I am illegal.");// Do not change this line
-        }
+        if (!isLegal()){ // Do not change this line
+            System.out.println(bits);
+            throw new RuntimeException("I am illegal.");}// Do not change this line
+        
         //
-        return bits.toString().substring(1, bits.size() + 1);
+        return bits.toString().substring(1, length() + 1);
 
     }
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 3.3 ================================================
     public boolean equals(Object other) {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        String toComapre = other.toString();
+        return this.toString().equals(toComapre);
     }
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 3.4 ================================================
     public BinaryNumber add(BinaryNumber addMe) {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        if (addMe == null || addMe.length() == 0)
+        {
+            throw new IllegalArgumentException("Cannot add null or empty number.");
+        }
+        int maxSize = 0;
+        if (addMe.length() > this.length())
+        {
+            maxSize = addMe.length();
+        }
+        else 
+        {
+            maxSize = this.length();
+        }
+
+        this.bits.padding(maxSize + 1);
+        addMe.bits.padding(maxSize + 1);
+        BitList added = new BitList();
+
+        Iterator<Bit> itr1 = this.bits.iterator();
+        Iterator<Bit> itr2 = addMe.bits.iterator();
+        Bit sum = Bit.ZERO;
+        Bit carry = Bit.ZERO;
+        
+        while (itr1.hasNext())
+        {
+            Bit bit1 = itr1.next();
+            Bit bit2 = itr2.next();
+            sum = Bit.fullAdderSum(bit1, bit2, carry);
+            carry =Bit.fullAdderCarry(bit1, bit2, carry);
+            added.addLast(sum);
+
+        }
+
+        
+        added.reduce();
+        addMe.bits.reduce();
+        this.bits.reduce();
+        return new BinaryNumber(added);
+
     }
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 3.5 ================================================
     public BinaryNumber negate() {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        BitList negate = new BitList();
+        Iterator<Bit> itr = this.bits.iterator();
+        while (itr.hasNext())
+        {
+            negate.addLast(itr.next().negate());
+        }
+        BinaryNumber output = new BinaryNumber(negate);
+        output = output.add(new BinaryNumber('1'));
+        return output;
     }
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 3.6 ================================================
     public BinaryNumber subtract(BinaryNumber subtractMe) {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        if (subtractMe == null || subtractMe.length() == 0)
+        {
+            throw new IllegalArgumentException("Cannot subtract null or empty number.");
+        }
+        BinaryNumber toSubtract = subtractMe.negate();
+        return this.add(toSubtract);
     }
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 3.7 ================================================
     public int signum() {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        int output;
+        Bit bit = this.bits.removeLast();
+        this.bits.addLast(bit);
+        if (this.equals(ZERO))
+        {
+            output = 0;
+        }
+        else if (bit.equals(Bit.ONE))
+        {
+            output = -1;
+        }
+        else
+        {
+            output = 1;
+        }
+
+        return output;
     }
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 3.8 ================================================
     public int compareTo(BinaryNumber other) {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        if (other == null || other.length() == 0)
+        {
+            throw new IllegalArgumentException("Cannot compare to null or empty number.");
+        }
+        return this.subtract(other).signum();
     }
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 3.9 ================================================
@@ -118,17 +194,56 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
         if (!isLegal()) // Do not change this line
             throw new RuntimeException("I am illegal.");// Do not change this line
         //
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        BinaryNumber toInt = new BinaryNumber(this);
+        int times = 1;
+        int output = 0;
+        int power = 1;
+        if (toInt.signum() == -1)
+        {
+            toInt = toInt.negate();
+            times = -1;
+
+        }
+        
+        Iterator<Bit> itr = toInt.bits.iterator();
+        while (itr.hasNext())
+        {
+            output = output + itr.next().toInt() * power;
+            power = power * 2;
+        }
+
+        return output * times;
     }
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 3.10 ================================================
     // Do not change this method
     public BinaryNumber multiply(BinaryNumber multiplyMe) {
-    	throw new UnsupportedOperationException("Delete this line and implement the method.");
+        BinaryNumber multiplyMe2 = new BinaryNumber(multiplyMe);
+        BinaryNumber output;
+        if (multiplyMe.signum() == -1)
+        {
+            output = multiplyPositive(multiplyMe2.negate()).negate();
+        }
+        else
+        {
+            output = multiplyPositive(multiplyMe2);
+        }
+
+        return output;
     }
 
     private BinaryNumber multiplyPositive(BinaryNumber multiplyMe) {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        BinaryNumber output = new BinaryNumber(this);
+        if (multiplyMe.equals(ZERO))
+        {
+            output = ZERO;
+        }
+        else
+        {
+            output = output.add(multiplyPositive(multiplyMe.subtract(ONE)));
+        }
+
+        return output;
     }
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 3.11 ================================================
