@@ -30,7 +30,7 @@ public class Tests {
 
         BinaryNumber m3 = new BinaryNumber("-4000");
         System.out.println("div: " + m3.divide(new BinaryNumber("100")).toInt());
-        /*
+        
         System.out.println(n3.multiply(n5));
         //---------------------------------------------------
         test(n0.toString(), n0.toString().equals("0"), 10);
@@ -93,7 +93,7 @@ public class Tests {
         test("fib(100) / 2 "+fib100.divide(n2).toIntString(), fib100.divide(n2).toIntString().equals("177112424089630957537"), 440);
         test("minus fib(100) = "+fib100.negate().toIntString(), fib100.negate().toIntString().equals("-354224848179261915075"), 450);
         Long endTime = System.currentTimeMillis();
-        System.out.println("Tests execution took " + (endTime - startTime) + " milliseconds.");*/
+        System.out.println("Tests execution took " + (endTime - startTime) + " milliseconds.");
     }
 
     private static BinaryNumber getZero() {

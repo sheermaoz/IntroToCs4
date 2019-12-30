@@ -29,14 +29,10 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
             throw new IllegalArgumentException("This Constructor may only get either zero or one.");
     }
 
+    //Construct a BinaryNumber from a BitList
     public BinaryNumber(BitList bits)
     {
         this.bits = new BitList(bits);
-    }
-
-    public BinaryNumber()
-    {
-        this.bits = new BitList();
     }
 
     //Do not chainge this method
@@ -150,18 +146,16 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
         added.reduce();
         addMe.bits.reduce();
         this.bits.reduce();
+        //Use BitList constructor
         return new BinaryNumber(added);
 
     }
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 3.5 ================================================
     public BinaryNumber negate() {
-        BitList negate = new BitList();
-        Iterator<Bit> itr = this.bits.iterator();
-        while (itr.hasNext())
-        {
-            negate.addLast(itr.next().negate());
-        }
+        BitList negate = new BitList(this.bits);
+        negate = negate.complement();
+        //Use BitList constructor
         BinaryNumber output = new BinaryNumber(negate);
         output = output.add(new BinaryNumber('1'));
         return output;
@@ -449,7 +443,5 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
         }
         return output;
     }
-
-    public BitList getBits(){return bits;}
 
 }
