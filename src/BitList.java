@@ -52,6 +52,10 @@ public class BitList extends LinkedList<Bit> {
     }
 
     public Bit removeLast() {
+        if (size() == 0)
+        {
+            throw new RuntimeException("Cannot remove from empty List.")
+        }
         Bit bit = super.removeLast();
         if (bit.toInt() == 1)
         {
@@ -61,6 +65,10 @@ public class BitList extends LinkedList<Bit> {
     }
 
     public Bit removeFirst() {
+        if (size() == 0)
+        {
+            throw new RuntimeException("Cannot remove from empty List.")
+        }
         Bit bit = super.removeFirst();
         if (bit.toInt() == 1)
         {
