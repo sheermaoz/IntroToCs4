@@ -15,51 +15,7 @@ public class Tests {
         test("Bit.carry(zero, zero, zero).equals(zero)", Bit.fullAdderCarry(zero, zero, zero).equals(zero),90);
         test("Bit.carry(one , one , zero).equals(one )", Bit.fullAdderCarry(one , one , zero).equals(one ),100);
         test("Bit.carry(zero, zero, one ).equals(zero)", Bit.fullAdderCarry(zero, zero, one ).equals(zero),160);
-
-        BitList b1 = new BitList(); // <>
-        b1.addFirst(one); // <0>
-        b1.addFirst(one); // <00>
-        b1.addFirst(zero); // <001>
-        //b1.padding(8);
-        BinaryNumber nb1 = new BinaryNumber(b1);
-        System.out.println(nb1.toInt()); // prints <001>
-
-        BitList b2 = new BitList();
-        b2.addFirst(one); // <0>
-        b2.addFirst(zero); // <00>
-        b2.addFirst(one); 
-
         
-        BinaryNumber bn5 = new BinaryNumber('5'); // 0101 (5)
-        BinaryNumber bn5a = new BinaryNumber('5'); // 0101 (5)
-        BinaryNumber bn6 = new BinaryNumber('6'); // 0110 (6)
-        System.out.println(bn5.equals(bn5a));
-        System.out.println(bn5.equals(bn6));
-
-        //BitList b1 = new BitList(); // <>
-        b1.addFirst(zero); // <0>
-        b1.addFirst(zero); // <00>
-        b1.addFirst(one); // <001>
-        //BitList b2 = new BitList(b1); // <001>
-        //System.out.println(b2.toString()); // <001>
-        b2.addFirst(one); // <0011>
-        b2.addFirst(one); // <00111>
-        b2.addFirst(one); // <001111>
-        System.out.println(b1.isReduced()); // <001>
-        System.out.println(b2.isReduced()); // <001111>
-
-        BitList b3 = new BitList(); // <>
-        //System.out.println(b1.isNumber()); // prints false
-        b3.addFirst(one); // <1>
-        b3.addFirst(zero); // <10>
-        b3.addFirst(one); // <100>
-        b3.addFirst(zero);
-        //System.out.println(b1.isNumber()); // prints false
-        b3.addLast(zero); // <1100>
-        b3.padding(6);
-        System.out.println(b3.toString()); // prints true
-
-
     	
     	BinaryNumber n0 = new BinaryNumber('0');
         BinaryNumber n1 = new BinaryNumber('1');
@@ -71,6 +27,11 @@ public class Tests {
         BinaryNumber n7 = new BinaryNumber('7');
         BinaryNumber n8 = new BinaryNumber('8');
         BinaryNumber n9 = new BinaryNumber('9');
+
+        BinaryNumber m3 = new BinaryNumber("-4000");
+        System.out.println("div: " + m3.divide(new BinaryNumber("100")).toInt());
+        /*
+        System.out.println(n3.multiply(n5));
         //---------------------------------------------------
         test(n0.toString(), n0.toString().equals("0"), 10);
         test(n3.toString(), n3.toString().equals("011"), 40);
@@ -109,6 +70,12 @@ public class Tests {
         test(n10.add(n10)+".divide("+n9+").equals("+n2+")", n10.add(n10).divide(n9).equals(n2),320);
         BinaryNumber n89 = new BinaryNumber("89");
         test(n89+".divide("+n10+").equals("+n89.divide(n10)+")", n89.divide(n10).equals(new BinaryNumber("8")),321);
+        BinaryNumber n119 = new BinaryNumber("119");
+        System.out.println(n119);
+        BinaryNumber n15 = new BinaryNumber("15");
+        BinaryNumber wer = n119.divide(n15);
+        System.out.println(wer);
+
         //------------ toInt() -------------------------
         test(n10.add(n10).toInt()+" == 20", n10.add(n10).toInt() == 20, 330);
         //----------- constructor ----------------------------
@@ -126,7 +93,7 @@ public class Tests {
         test("fib(100) / 2 "+fib100.divide(n2).toIntString(), fib100.divide(n2).toIntString().equals("177112424089630957537"), 440);
         test("minus fib(100) = "+fib100.negate().toIntString(), fib100.negate().toIntString().equals("-354224848179261915075"), 450);
         Long endTime = System.currentTimeMillis();
-        System.out.println("Tests execution took " + (endTime - startTime) + " milliseconds.");
+        System.out.println("Tests execution took " + (endTime - startTime) + " milliseconds.");*/
     }
 
     private static BinaryNumber getZero() {

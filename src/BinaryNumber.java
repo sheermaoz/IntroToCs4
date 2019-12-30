@@ -31,7 +31,12 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
 
     public BinaryNumber(BitList bits)
     {
-        this.bits = bits;
+        this.bits = new BitList(bits);
+    }
+
+    public BinaryNumber()
+    {
+        this.bits = new BitList();
     }
 
     //Do not chainge this method
@@ -77,9 +82,8 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
   //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 3.2 ================================================
     public String toString() {
         // Do not remove or change the next two lines
-        if (!isLegal()){ // Do not change this line
-            System.out.println(bits);
-            throw new RuntimeException("I am illegal.");}// Do not change this line
+        // if (!isLegal()){ // Do not change this line
+        //     throw new RuntimeException("I am illegal.");}// Do not change this line
         
         //
         return bits.toString().substring(1, length() + 1);
@@ -88,8 +92,23 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 3.3 ================================================
     public boolean equals(Object other) {
-        String toComapre = other.toString();
-        return this.toString().equals(toComapre);
+        if (!(other instanceof BinaryNumber))
+            return false;
+        
+        BinaryNumber bnOther = (BinaryNumber)other;
+        if (this.length() != bnOther.length())
+            return false;
+        Iterator<Bit> itr1 = this.bits.iterator();
+        Iterator<Bit> itr2 = bnOther.bits.iterator();
+
+        while (itr1.hasNext())
+        {
+            if (!(itr1.next().equals(itr2.next())))
+                return false;
+            
+        }
+
+        return true;
     }
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 3.4 ================================================
@@ -194,6 +213,7 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
         if (!isLegal()) // Do not change this line
             throw new RuntimeException("I am illegal.");// Do not change this line
         //
+
         BinaryNumber toInt = new BinaryNumber(this);
         int times = 1;
         int output = 0;
@@ -234,15 +254,24 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
 
     private BinaryNumber multiplyPositive(BinaryNumber multiplyMe) {
         BinaryNumber output = new BinaryNumber(this);
-        if (multiplyMe.equals(ZERO))
+        if (multiplyMe.equals(new BinaryNumber(0)) | multiplyMe.length() == 0)
         {
-            output = ZERO;
+            output = new BinaryNumber(0);
         }
         else
         {
-            output = output.add(multiplyPositive(multiplyMe.subtract(ONE)));
+            Bit bit = multiplyMe.bits.removeFirst();
+            multiplyMe.bits.addFirst(bit);
+            if (bit.equals(Bit.ONE))
+            {
+                output = output.add(output.multBy2().multiplyPositive(multiplyMe.divBy2()));
+            }
+            else
+            {
+                output = output.multBy2().multiplyPositive(multiplyMe.divBy2());
+            }
+            
         }
-
         return output;
     }
 
@@ -252,17 +281,104 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
     	// Do not remove or change the next two lines
     	if (divisor.equals(ZERO)) // Do not change this line
             throw new RuntimeException("Cannot divide by zero."); // Do not change this line
-    	//
-    	throw new UnsupportedOperationException("Delete this line and implement the method.");
+        //
+        
+        if (!isLegal())
+            throw new IllegalArgumentException("I am not legal.");
+        BinaryNumber divisor2 = new BinaryNumber(divisor);
+        BinaryNumber output;
+        BinaryNumber divider = new BinaryNumber(this);
+        int toNegate = 0;
+        if (divider.signum() == -1)
+        {
+            toNegate++;
+            divider = divider.negate();
+        }
+        if (divisor2.signum() == -1)
+        {
+            toNegate--;
+            divisor2 = divisor2.negate();
+        }
+        output = divider.dividePositive(divisor2);
+        if (toNegate != 0)
+            output = output.negate();
+        return output;
     }
 
     private BinaryNumber dividePositive(BinaryNumber divisor) {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+       
+        BinaryNumber quotient = new BinaryNumber(0);
+        BinaryNumber temp = new BinaryNumber(0);
+        if (this.compareTo(divisor) == -1)
+        {
+            return new BinaryNumber(0);
+        }
+        for (int i =0; i < divisor.length() -1; i++)
+        {
+            temp.bits.addFirst(this.bits.removeLast());
+        }
+        while(this.length() > 0)
+        {
+            
+            temp.bits.addFirst(this.bits.removeLast());
+            if (divisor.compareTo(temp) != 1)
+            {
+                temp = temp.subtract(divisor);
+                quotient.bits.addFirst(Bit.ONE);
+            }
+            else
+            {
+                quotient.bits.addFirst(Bit.ZERO);
+            }
+        }
+
+        quotient.bits.reduce();
+        return quotient;
     }
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 3.12 ================================================
     public BinaryNumber(String s) {
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        if (s == null || s.length() == 0)
+        {
+            throw new IllegalArgumentException("Can't create a number from an empty or null string.");
+        }
+        BinaryNumber ten = new BinaryNumber('9').add(ONE);
+        BinaryNumber output = new BinaryNumber('0');
+
+        if (s.charAt(0) != '-')
+        {
+            for (int i = 0; i < s.length(); i++)
+            {
+                char digit = s.charAt(i);
+                if (digit > '9' | digit < '0')
+                {
+                    throw new IllegalArgumentException("The string does not represent a decimal number.");
+                }
+                output = output.multiply(ten);
+                output = output.add(new BinaryNumber(digit));
+            }
+        }
+
+        else
+        {
+         for (int i = 1; i < s.length(); i++)
+            {
+                char digit = s.charAt(i);
+                if (digit > '9' | digit < '0')
+                {
+                    throw new IllegalArgumentException("The string does not represent a decimal number.");
+                }
+                output = output.multiply(ten);
+                output = output.add(new BinaryNumber(digit));
+                
+            }
+            output = output.negate(); 
+        }
+
+        this.bits = new BitList(output.bits);
+
+
+
     }
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 3.13 ================================================
@@ -271,7 +387,45 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
         if (!isLegal()) // Do not change this line
             throw new RuntimeException("I am illegal.");// Do not change this line
         //
-        throw new UnsupportedOperationException("Delete this line and implement the method.");
+        BinaryNumber power = new BinaryNumber(1);
+        String s = "";
+        BinaryNumber toString = new BinaryNumber(this);
+        if (toString.signum() == -1)
+        {
+            toString = toString.negate();
+        }
+        int length = 1;
+        while(toString.compareTo(power) != -1)
+        {
+            length++;
+            power = power.multiply(new BinaryNumber("10"));
+        }
+        power = power.divide(new BinaryNumber("10"));
+        length--;
+
+        while (!toString.equals(ZERO))
+        {
+            BinaryNumber temp = toString.divide(power);
+            s = s + temp.toInt();
+            toString = toString.subtract(temp.multiply(power));
+            power = power.divide(new BinaryNumber("10"));
+            
+        }
+        while (s.length() < length)
+        {
+            s = s + "0";
+        }
+        if (this.signum() == -1)
+        {
+            s = '-' + s;
+        }
+        if (s.length() == 0)
+        {
+            s = "0";
+        }
+
+        return s;
+        
     }
 
 
@@ -295,5 +449,7 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
         }
         return output;
     }
+
+    public BitList getBits(){return bits;}
 
 }

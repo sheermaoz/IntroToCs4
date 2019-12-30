@@ -71,11 +71,10 @@ public class BitList extends LinkedList<Bit> {
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 2.2 ================================================
     public String toString() {
-        java.util.Iterator<Bit> itr = super.iterator();
         String output = ">";
-        while (itr.hasNext())
+        for (Bit bit : this)
         {
-            output = itr.next().toString() + output;
+            output = bit.toString() + output;
         }
         output = "<" + output;
         return output;
@@ -83,20 +82,17 @@ public class BitList extends LinkedList<Bit> {
     
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 2.3 ================================================
     public BitList(BitList other) {
-        Bit current;
         if (other == null)
         {
             throw new IllegalArgumentException("Can't construct from a null BitList.");
         }
-        java.util.Iterator<Bit> itr = other.iterator();
-        while (itr.hasNext())
+        for (Bit bit : other)
         {
-            current = itr.next();
-            if (current == null)
+            if (bit == null)
             {
-                throw new IllegalArgumentException("Null cannot be an element of BitList.");
+                throw new IllegalArgumentException("Can't construct from a BitList containing null.");
             }
-            this.addLast(current);
+            this.addLast(bit);
         }
     }
 
@@ -160,12 +156,10 @@ public class BitList extends LinkedList<Bit> {
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 2.6 ================================================
     public BitList complement() {
-        java.util.Iterator<Bit> itr = super.iterator();
         BitList output = new BitList();
-        while (itr.hasNext())
+        for (Bit bit : this)
         {
-            Bit newBit = itr.next();
-            output.addLast(newBit.negate());
+            output.addLast(bit.negate());
         }
 
         return output;
