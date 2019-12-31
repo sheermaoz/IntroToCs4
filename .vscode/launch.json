@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - BinaryNumber",
+            "request": "launch",
+            "mainClass": "BinaryNumber",
+            "projectName": "Assignment4"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - TestsOhad",
             "request": "launch",
             "mainClass": "TestsOhad",

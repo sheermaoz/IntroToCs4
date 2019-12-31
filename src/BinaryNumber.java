@@ -208,6 +208,13 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
             throw new RuntimeException("I am illegal.");// Do not change this line
         //
 
+        BinaryNumber max = new BinaryNumber("2147483647");
+        BinaryNumber min = new BinaryNumber("-2147483647");
+        if ((this.compareTo(max) == 1) | (this.compareTo(min) == -1))
+        {
+            throw new RuntimeException("The value cannot be represented by an int.");
+        }
+
         BinaryNumber toInt = new BinaryNumber(this);
         int times = 1;
         int output = 0;
@@ -380,39 +387,26 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
         // Do not remove or change the next two lines
         if (!isLegal()) // Do not change this line
             throw new RuntimeException("I am illegal.");// Do not change this line
-        //
-        BinaryNumber power = new BinaryNumber(1);
+        
         String s = "";
         BinaryNumber toString = new BinaryNumber(this);
+        BinaryNumber ten = new BinaryNumber("10");
         if (toString.signum() == -1)
         {
             toString = toString.negate();
         }
-        int length = 1;
-        while(toString.compareTo(power) != -1)
+        while (toString.compareTo(ZERO) == 1)
         {
-            length++;
-            power = power.multiply(new BinaryNumber("10"));
+            s = toString.subtract(toString.divide(ten).multiply(ten)).toInt() + s;
+            toString = toString.divide(ten);    
         }
-        power = power.divide(new BinaryNumber("10"));
-        length--;
+        
 
-        while (!toString.equals(ZERO))
-        {
-            BinaryNumber temp = toString.divide(power);
-            s = s + temp.toInt();
-            toString = toString.subtract(temp.multiply(power));
-            power = power.divide(new BinaryNumber("10"));
-            
-        }
-        while (s.length() < length)
-        {
-            s = s + "0";
-        }
         if (this.signum() == -1)
         {
             s = '-' + s;
         }
+
         if (s.length() == 0)
         {
             s = "0";
@@ -443,5 +437,6 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
         }
         return output;
     }
+
 
 }
