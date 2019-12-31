@@ -113,6 +113,8 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
         {
             throw new IllegalArgumentException("Cannot add null or empty number.");
         }
+        BinaryNumber add1 = new BinaryNumber(addMe);
+        BinaryNumber add2 = new BinaryNumber(this);
         int maxSize = 0;
         if (addMe.length() > this.length())
         {
@@ -123,12 +125,12 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
             maxSize = this.length();
         }
 
-        this.bits.padding(maxSize + 1);
-        addMe.bits.padding(maxSize + 1);
+        add1.bits.padding(maxSize + 1);
+        add2.bits.padding(maxSize + 1);
         BitList added = new BitList();
 
-        Iterator<Bit> itr1 = this.bits.iterator();
-        Iterator<Bit> itr2 = addMe.bits.iterator();
+        Iterator<Bit> itr1 = add1.bits.iterator();
+        Iterator<Bit> itr2 = add2.bits.iterator();
         Bit sum = Bit.ZERO;
         Bit carry = Bit.ZERO;
         
@@ -144,8 +146,6 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
 
         
         added.reduce();
-        addMe.bits.reduce();
-        this.bits.reduce();
         //Use BitList constructor
         return new BinaryNumber(added);
 
