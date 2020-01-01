@@ -255,21 +255,20 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
 
     private BinaryNumber multiplyPositive(BinaryNumber multiplyMe) {
         BinaryNumber output = new BinaryNumber(this);
-        if (multiplyMe.equals(new BinaryNumber(0)) | multiplyMe.length() == 0)
+        if (multiplyMe.equals(ZERO) | multiplyMe.length() == 0)
         {
             output = new BinaryNumber(0);
         }
         else
         {
             Bit bit = multiplyMe.bits.removeFirst();
-            multiplyMe.bits.addFirst(bit);
             if (bit.equals(Bit.ONE))
             {
-                output = output.add(output.multBy2().multiplyPositive(multiplyMe.divBy2()));
+                output = output.add(output.multBy2().multiplyPositive(multiplyMe));
             }
             else
             {
-                output = output.multBy2().multiplyPositive(multiplyMe.divBy2());
+                output = output.multBy2().multiplyPositive(multiplyMe);
             }
             
         }
@@ -286,7 +285,6 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
         
         if (!isLegal())
             throw new IllegalArgumentException("I am not legal.");
-        BinaryNumber divisor2 = new BinaryNumber(divisor);
         BinaryNumber output;
         BinaryNumber divider = new BinaryNumber(this);
         int toNegate = 0;
@@ -295,12 +293,12 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
             toNegate++;
             divider = divider.negate();
         }
-        if (divisor2.signum() == -1)
+        if (divisor.signum() == -1)
         {
             toNegate--;
-            divisor2 = divisor2.negate();
+            divisor = divisor.negate();
         }
-        output = divider.dividePositive(divisor2);
+        output = divider.dividePositive(divisor);
         if (toNegate != 0)
             output = output.negate();
         return output;
@@ -344,7 +342,7 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
             throw new IllegalArgumentException("Can't create a number from an empty or null string.");
         }
         BinaryNumber ten = new BinaryNumber('9').add(ONE);
-        BinaryNumber output = new BinaryNumber('0');
+        BinaryNumber output = new BinaryNumber(0);
 
         if (s.charAt(0) != '-')
         {
@@ -436,6 +434,14 @@ public class BinaryNumber implements Comparable<BinaryNumber>{
             } else output.bits.shiftRight();
         }
         return output;
+    }
+
+    public static void main(String[] args) {
+        BinaryNumber n6 = new BinaryNumber("4");
+        BinaryNumber n2 = new BinaryNumber("3");
+        System.out.println(n6.multiply(n2));
+        System.out.println(n6);
+        System.out.println(n2);
     }
 
 
