@@ -25,6 +25,10 @@ public class BitList extends LinkedList<Bit> {
 //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 2.1 ================================================
 
     public void addLast(Bit element) {
+        /*
+        The function receives a Bit and adds it to the end of the list.
+        numberOfOnes is updated according the value of the given Bit.
+        */
         if (element == null)
         {
             throw new IllegalArgumentException("Null cannot be added to the list.");
@@ -38,6 +42,10 @@ public class BitList extends LinkedList<Bit> {
     }
 
     public void addFirst(Bit element) {
+        /*
+        The function receives a Bit and adds it to the start of the list.
+        numberOfOnes is updated according the value of the given Bit.
+        */
         if (element == null)
         {
             throw new IllegalArgumentException("Null cannot be added to the list.");
@@ -52,6 +60,10 @@ public class BitList extends LinkedList<Bit> {
     }
 
     public Bit removeLast() {
+        /*
+        The function removes the Bit at the end of the list and returns it.
+        numberOfOnes is updated according the value of the removed Bit.
+        */
         if (size() == 0)
         {
             throw new RuntimeException("Cannot remove from empty List.");
@@ -65,6 +77,10 @@ public class BitList extends LinkedList<Bit> {
     }
 
     public Bit removeFirst() {
+        /*
+        The function removes the Bit at the start of the list and returns it.
+        numberOfOnes is updated according the value of the removed Bit.
+        */
         if (size() == 0)
         {
             throw new RuntimeException("Cannot remove from empty List.");
@@ -79,6 +95,10 @@ public class BitList extends LinkedList<Bit> {
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 2.2 ================================================
     public String toString() {
+        /*
+        The function returns a String representing the list, 
+            encapsulated by '<>'.
+        */
         String output = ">";
         for (Bit bit : this)
         {
@@ -90,6 +110,9 @@ public class BitList extends LinkedList<Bit> {
     
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 2.3 ================================================
     public BitList(BitList other) {
+        /*
+        A copying constructur.
+        */
         if (other == null)
         {
             throw new IllegalArgumentException("Can't construct from a null BitList.");
@@ -106,6 +129,10 @@ public class BitList extends LinkedList<Bit> {
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 2.4 ================================================
     public boolean isNumber() {
+        /*
+        The function returns true if the list represents a valid 
+            binary number, and false otherwise.
+        */
         boolean output = true;
         if (this.size() == 0)
         {
@@ -125,6 +152,10 @@ public class BitList extends LinkedList<Bit> {
     
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 2.5 ================================================
     public boolean isReduced() {
+        /*
+        The function returns true if the number represented by the list
+            is reduced, and false otherwise.
+        */
         boolean output;
         String binary = this.toString();
 
@@ -153,6 +184,9 @@ public class BitList extends LinkedList<Bit> {
     }
 
     public void reduce() {
+        /*
+        The function reduces the number represented by the list.
+        */
         while (!isReduced())
         {
             removeLast();
@@ -164,6 +198,10 @@ public class BitList extends LinkedList<Bit> {
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 2.6 ================================================
     public BitList complement() {
+        /*
+        The function returns a new list where each Bit is 
+            negative to the corresponding Bit in the list.
+        */
         BitList output = new BitList();
         for (Bit bit : this)
         {
@@ -175,6 +213,10 @@ public class BitList extends LinkedList<Bit> {
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 2.7 ================================================
     public Bit shiftRight() {
+        /*
+        The function shifts the binary number represented
+            in the list to the right, and returns the removed Bit.
+        */
         Bit output = null;
         if (this.size() > 0)
         {
@@ -185,11 +227,20 @@ public class BitList extends LinkedList<Bit> {
     }
 
     public void shiftLeft() {
+        /*
+        The function shifts the binary number represented
+            in the list to the left.
+        */
         this.addFirst(Bit.ZERO);
     }
 
     //=========================== Intro2CS 2020, ASSIGNMENT 4, TASK 2.8 ================================================
     public void padding(int newLength) {
+        /*
+        The function adds padding to the number, until it is 
+            the length of newLength.
+        If the number is longer, nothing happens.
+        */
         if (newLength > size())
         {
             Bit last = removeLast();
